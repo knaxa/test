@@ -1,0 +1,23 @@
+name: Test Workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to server
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    outputs:
+      branch: ${{ steps.extract_branch.outputs.branch }}
+    steps:
+      - name: Extract Branch Name
+        shell: bash
+        run: |
+          echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
+
+      - name: Deploy to VM
+        uses: anilrajrimal1/test-tagging/.github/actions/build_action@build_action/v1.0.0
+        with:
+          BRANCH_NAME: ${{ steps.extract_branch.outputs.branch }}
