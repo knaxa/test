@@ -18,6 +18,6 @@ jobs:
         id: extract_branch
 
       - name: Deploy to VM
-        uses: anilrajrimal1/test-tagging/.github/actions/build_action@build_action/v1.0.0
+        uses: anilrajrimal1/test-tagging/.github/actions/build_action@master
         with:
           BRANCH_NAME: ${{ steps.extract_branch.outputs.branch }}
